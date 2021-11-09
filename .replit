@@ -1,0 +1,3 @@
+run="python connect4.py"
+language="python3"
+onBoot="echo Booting up!"
