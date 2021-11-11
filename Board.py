@@ -171,17 +171,34 @@ class Board:
         """
             Params:     point (tuple) - containing valid (row,col) position on board
             
-            Returns:    idk yet but probabily either an array of winning points or the player value
-                        who won
+            Returns:    point (tuple) - final point of winning streak
         """
+
+        def win_state_helper(winningPt,streak=2):
+            point,position = winningPt
+ 
+            neighbor = self.neighbors(point,position)
+            if neighbor is not None:
+                if self.matrix[neighbor] == self.matrix[point]:
+                    streak += 1
+                    if streak == 4:
+                        return neighbor
+                    return win_state_helper( (neighbor,position),(streak) )
+            return None
+
         playerVal = self.matrix[point]
-        # Current streak, if streak = 4, 
-        streak = 0
-        winningPts = []
-        neighbors = self.neighbors(point)
-        for elem in neighbors:
-            if self.matrix[elem] == playerVal:
-                winningPts
+
+        for i in range(COL_COUNT+1):
+            neighbor = self.neighbors(point,i)
+            if neighbor is None:
+                continue
+            
+            neighborVal = self.matrix[neighbor]
+            if neighborVal == playerVal:
+                helper = win_state_helper((neighbor,i))
+                if helper is not None:
+                    return helper
+        return None
 
 
 
