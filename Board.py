@@ -77,13 +77,14 @@ class Board:
         return False
     
     # Function to return array of points located next to  input point
-    def neighbors(self,point):
+    def neighbors(self,point,position):
         """
             Params:     point (tuple) - containing valid (row,col) position on board
+                        position (int) - int specifiying which neighbor to check
                         
             
             Returns:    array of valid (they exist on the board) points neighboring the paramater point
-            Returns:    None if param point is invalid
+            Returns:    None neighbor does not exist
         """
         # Set point to first tuple in *point args
         row,col = point
@@ -92,35 +93,54 @@ class Board:
         try:
             self.matrix[row][col]
         except (ValueError, IndexError):
-            return None
+            raise ValueError("Point Does not Exist in Board!")
         
-        rawNeighbors = []
-        # Add tuple positions for each neighbor to rawNeighbors
-        # Top Left
-        rawNeighbors.append((row-1,col-1))
-        # Top Middle
-        rawNeighbors.append((row-1,col))
-        # Top Right
-        rawNeighbors.append((row-1,col+1))
-        # Direct Left
-        rawNeighbors.append((row,col-1))
-        # Direct Right 
-        rawNeighbors.append((row,col+1))
-        # Bottom Left
-        rawNeighbors.append((row+1,col-1))
-        # Bottom middle
-        rawNeighbors.append((row+1,col))
-        # Bottom right
-        rawNeighbors.append((row+1,col+1))
+        # Verify the position is valid
+        if not 0 <= position <= 8:
+            raise ValueError("Position Invalid!")
 
-        goodNeighbors = []
-        # Verify that all rawNeighbors exist on the board, and add them to goodNeighbors
-        for elem in rawNeighbors:
+
+        # Top Left = 0
+        # Top Middle = 1
+        # Top Right = 2
+        # Direct Left = 3
+        # Direct Right = 4
+        # Bottom Left = 5
+        # Bottom middle = 6
+        # Bottom right = 7
+        neighborVals = {
+            0: (row-1,col-1),
+            1: (row-1,col),
+            2: (row-1,col+1),
+            3: (row,col-1),
+            4: (row,col+1),
+            5: (row+1,col-1),
+            6: (row+1,col),
+            7: (row+1,col+1),
+        }
+
+        # If position is not 8, get value of specified position
+        if position != 8:
+            elem = neighborVals.get(position)
             r,c = elem
-            if ( 0 <= r < ROW_COUNT):
+            if 0 <= r < ROW_COUNT:
+                if 0 <= c < COL_COUNT:
+                    return elem
+                return None
+            return None
+
+        # If position is 8, get array of all neighbors
+        neighbors = neighborVals.values()
+        goodNeighbors = []
+        for elem in neighbors:
+            r,c = elem
+            if 0 <= r < ROW_COUNT:
                 if 0 <= c < COL_COUNT:
                     goodNeighbors.append(elem)
+
         return goodNeighbors
+                    
+
 
     def makeMove(self,point,playerValue):
         """
@@ -146,8 +166,22 @@ class Board:
         self.depth += 1
         return self
 
-        
-
+    # A function to check if the move made resulted in a winning state
+    def win_state(self,point):
+        """
+            Params:     point (tuple) - containing valid (row,col) position on board
+            
+            Returns:    idk yet but probabily either an array of winning points or the player value
+                        who won
+        """
+        playerVal = self.matrix[point]
+        # Current streak, if streak = 4, 
+        streak = 0
+        winningPts = []
+        neighbors = self.neighbors(point)
+        for elem in neighbors:
+            if self.matrix[elem] == playerVal:
+                winningPts
 
 
 
