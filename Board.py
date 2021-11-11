@@ -42,7 +42,18 @@ class Board:
 
                 raise ValueError("Invalid Matrix!")
     
+    # A function to checks if two Boards are equal
+    def __eq__(self, other):
+        """
+            Params:     other (Board) - other board to compare self to
+            
+            Returns:    True if the two boards are equal
+        """
+        if not isinstance(other, Board):
+            return False
+        return self.matrix == other.matrix
 
+    # A function to check if the move is valid
     def isValidMove(self,point):
         """
             Params: point (tuple) - containing valid (row,col) position on board
@@ -64,6 +75,52 @@ class Board:
             return True
         
         return False
+    
+    # Function to return array of points located next to  input point
+    def neighbors(self,point):
+        """
+            Params:     point (tuple) - containing valid (row,col) position on board
+                        
+            
+            Returns:    array of valid (they exist on the board) points neighboring the paramater point
+            Returns:    None if param point is invalid
+        """
+        # Set point to first tuple in *point args
+        row,col = point
+
+        # Verify that the index of point actually exists in the matrix
+        try:
+            self.matrix[row][col]
+        except (ValueError, IndexError):
+            return None
+        
+        rawNeighbors = []
+        # Add tuple positions for each neighbor to rawNeighbors
+        # Top Left
+        rawNeighbors.append((row-1,col-1))
+        # Top Middle
+        rawNeighbors.append((row-1,col))
+        # Top Right
+        rawNeighbors.append((row-1,col+1))
+        # Direct Left
+        rawNeighbors.append((row,col-1))
+        # Direct Right 
+        rawNeighbors.append((row,col+1))
+        # Bottom Left
+        rawNeighbors.append((row+1,col-1))
+        # Bottom middle
+        rawNeighbors.append((row+1,col))
+        # Bottom right
+        rawNeighbors.append((row+1,col+1))
+
+        goodNeighbors = []
+        # Verify that all rawNeighbors exist on the board, and add them to goodNeighbors
+        for elem in rawNeighbors:
+            r,c = elem
+            if ( 0 <= r < ROW_COUNT):
+                if 0 <= c < COL_COUNT:
+                    goodNeighbors.append(elem)
+        return goodNeighbors
 
     def makeMove(self,point,playerValue):
         """
