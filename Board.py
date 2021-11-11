@@ -16,13 +16,16 @@ class Board:
         This class represents the actual Board of the game
 
         matrix- double sub-scripted list containing description of the current game State with 0 = blank, 1 = playerOne, and 2 = playerTwo
+
+        winner (int) - player who won the game, None if game not won
     """
     # The connect-4 puzzle board representation
-    def __init__(self, matrix=None, depth=0):
+    def __init__(self, matrix=None, winner=None):
         """
             Create the board object
 
         Paramaters: matrix - numpy 2D matrix representing the board state.
+                    winner - winner of game, None if game not won
 
         Returns: Creates board, returns nothing
         """
@@ -31,15 +34,17 @@ class Board:
         else:
             self.matrix = matrix
 
-        if depth == 0:
-            self.depth = 0
+        if winner is None:
+            self.winner = None
         else:
-            self.depth = depth
+            self.winner = winner
+            
 
         for index, element in np.ndenumerate(self.matrix):
             # confirm that the matrix all contains valid values
             if element != 0 and element != 1 and element != 2:
-
+                print("Elem: " + str(element))
+                return
                 raise ValueError("Invalid Matrix!")
     
     # A function to checks if two Boards are equal
@@ -70,11 +75,12 @@ class Board:
             return False
         
         # Since we know the point exists, check it's value
-        # Since the move is valid as long as the column is not completly filled up, we can assume row = 0
-        if self.matrix[0][col] == 0:
-            return True
         
-        return False
+        moveVal = self.matrix[row][col]
+        if moveVal != 0:
+            return False
+        
+        return True
     
     # Function to return array of points located next to  input point
     def neighbors(self,point,position):
@@ -140,21 +146,31 @@ class Board:
 
         return goodNeighbors
                     
+    # A function to create a copy of the Board object itself
+    def duplicate(self):
+        new_matrix = [row.copy() for row in self.matrix]
+        return Board(new_matrix,self.winner)
 
-
-    def makeMove(self,point,playerValue):
+    def makeMove(self,col,playerValue):
         """
-            Params:     point (tuple) - containing valid (row,col) position on board
+            Params:     col (int) - column position of position on board
                         player (int) - value of player for board (1 or 2) - used for coloring pieces
             
             Returns:    Board (Board) - representing the new state of the game after the move
                         Returns None if no move can be made
         """
+        moveBoard = self.duplicate()
         # Set point to first tuple in *point args
-        row,col = point
-
+        point = None
+        for row in range((ROW_COUNT-1),-1,-1):
+            point = (row,col)
+            
+            if moveBoard.isValidMove( point ):
+                break
+        
+        
         # If move is invalid, return None
-        if not self.isValidMove(point):
+        if point is None:
             return None
         
         # Verify the player number is valid
@@ -162,9 +178,15 @@ class Board:
             return ValueError("Invalid playerValue!")
 
         # Since the playerValue and point is valid, make the move
-        self.matrix[row][col] = playerValue
-        self.depth += 1
-        return self
+        row, col = point
+        moveBoard.matrix[row][col] = playerValue
+        
+        
+        # If someone won, set winner value
+        if moveBoard.win_state(point) is not None:
+            moveBoard.winner = playerValue
+            
+        return moveBoard
 
     # A function to check if the move made resulted in a winning state
     def win_state(self,point):
@@ -172,28 +194,38 @@ class Board:
             Params:     point (tuple) - containing valid (row,col) position on board
             
             Returns:    point (tuple) - final point of winning streak
+                        None if no win state is achieved
         """
+        row,col = point
+        # Verify point is valid
+        if point is None:
+            return None
 
+        # A tail recursive helper function
         def win_state_helper(winningPt,streak=2):
+            
             point,position = winningPt
- 
+            row,col = point
+
             neighbor = self.neighbors(point,position)
             if neighbor is not None:
-                if self.matrix[neighbor] == self.matrix[point]:
+                nR,nC = neighbor
+                if self.matrix[nR][nC] == self.matrix[row][col]:
                     streak += 1
                     if streak == 4:
                         return neighbor
                     return win_state_helper( (neighbor,position),(streak) )
             return None
 
-        playerVal = self.matrix[point]
+        playerVal = self.matrix[row][col]
 
         for i in range(COL_COUNT+1):
             neighbor = self.neighbors(point,i)
             if neighbor is None:
                 continue
             
-            neighborVal = self.matrix[neighbor]
+            nR,nC = neighbor
+            neighborVal = self.matrix[nR][nC]
             if neighborVal == playerVal:
                 helper = win_state_helper((neighbor,i))
                 if helper is not None:

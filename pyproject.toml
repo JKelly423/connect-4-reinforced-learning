@@ -2,7 +2,7 @@
 name = "repl_python3_FINAL-Connect-4-v001"
 version = "0.1.0"
 description = ""
-authors = ["Jack Kelly <kelly14@iu.edu","Cassie Chaput <email>"]
+authors = ["Jack Kelly <kelly14@iu.edu","Cassie Chaput <Cchaput@iu.edu>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
