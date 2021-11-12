@@ -4,6 +4,7 @@
 import Board # numpy is imported in the Board.py file, and does not need to be imported here
 import State
 import GUI
+import Player
 
 # Array of all board states in order 
 path = []
@@ -17,8 +18,16 @@ def makeMove(state,col,player):
 
 # A function to play Connect-4 in the console
 def play_console():
-    turn = 0
+    
+    # Set random starting player
+    turn = Player.random.uniform(0,1)
+
+    # Set winner to the board.winner value of the most recent board in path[]
+    # Winner = None if board is not at win state
+    # Winner = playerValue if board at win state
     winner = path[-1].board.winner
+    
+    # While the board not in win state (aka. exit once board in win state)
     while winner is None:
         print(path[-1].board)
         
@@ -54,15 +63,24 @@ def play_console():
 # A function to play connect-4 in a GUI format
 def play_GUI():
     
+    # Create Player of type Random
+    AI = Player.Player(1,2)
+
     # Create Screen for GUI
     screen = GUI.GUI()
 
     # Draw initial black screen for gui
     screen.draw_board(path[-1].board)
     
-    turn = 0
+    # Set random starting player
+    turn = Player.random.uniform(0,1)
+
+    # Set winner to the board.winner value of the most recent board in path[]
+    # Winner = None if board is not at win state
+    # Winner = playerValue if board at win state
     winner = path[-1].board.winner
 
+    # While the board not in win state (aka. exit once board in win state)
     while winner is None:
 
         for event in GUI.pygame.event.get():
@@ -90,9 +108,12 @@ def play_GUI():
                     col = int(GUI.math.floor(mouseClickPos/screen.SQUARESIZE))
                     if board.isValidMove(col):
                         makeMove(path[-1],col,1)
+                        winner = path[-1].board.winner
                         screen.draw_board(path[-1].board)
+                    turn += 1
                     
-                
+                # Code for user input player 2, LEAVE IT HERE FOR NOW, I'll add to Player Class later
+                """
                 # Player 2 input
                 if turn%2 == 1:
                     # Get x position of where mouse was clicked to determine column
@@ -102,9 +123,26 @@ def play_GUI():
                     if board.isValidMove(col):
                         makeMove(path[-1],col,2)
                         screen.draw_board(path[-1].board)
-                
-                turn += 1
+                """
+
+        # If Player 1's move resulted in a win, break while before Player 2's move
+        if winner is not None:
+            break
+
+        # Player 2 input
+        if turn%2 == 1:
+            # Get column from AI player, move depends on type of player
+            col = AI.get_col_move(path[-1])
+            if board.isValidMove(col):
+                makeMove(path[-1],col,AI.playerValue)
                 winner = path[-1].board.winner
+                # Wait for 2 seconds to make the move seem more natural, not instant
+                #screen.wait(1000)
+                # Draw piece at top of column
+                screen.mouse_piece(col,turn)
+                screen.wait(800)
+                screen.draw_board(path[-1].board)
+            turn += 1
 
     # Print win message in window, and close after 3 seconds
     screen.game_over(winner,3000)
@@ -117,9 +155,3 @@ if __name__ == '__main__':
     state = State.State(board,None,0)
     path.append(state)
     play_GUI()
-
-
-
-
-        
-    

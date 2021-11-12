@@ -6,8 +6,6 @@
 # 2.    depth (int) - levels  
 import numpy as np
 
-# global variables to change row count and col count
-# used global variables to avoid magic numbers
 ROW_COUNT = 6
 COL_COUNT = 7
 
@@ -18,7 +16,12 @@ class Board:
         matrix- double sub-scripted list containing description of the current game State with 0 = blank, 1 = playerOne, and 2 = playerTwo
 
         winner (int) - player who won the game, None if game not won
+
+        ROW_COUNT (int) - # of Rows 
+        COL_COUNT (int) - # of Columns
     """
+
+
     # The connect-4 puzzle board representation
     def __init__(self, matrix=None, winner=None):
         """
@@ -29,6 +32,9 @@ class Board:
 
         Returns: Creates board, returns nothing
         """
+        self.ROW_COUNT = ROW_COUNT
+        self.COL_COUNT = COL_COUNT
+
         if matrix is None:
             self.matrix = np.zeros((ROW_COUNT,COL_COUNT))
         else:

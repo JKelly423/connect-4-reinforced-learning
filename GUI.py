@@ -6,10 +6,11 @@
 import pygame
 import sys
 import math
+import Board
 
-# Basic Connect 4 Layout
-COL_COUNT = 7
-ROW_COUNT = 6
+# Get layout from board class so that there are not multiple instances of magic numbers
+COL_COUNT = Board.COL_COUNT
+ROW_COUNT = Board.ROW_COUNT
 
 # COLORS defined with RGB values
 BLUE = (0,0,255)        # Background
@@ -51,6 +52,9 @@ class GUI:
     def draw_board(self,board):
         # Change title bar of pygame window for visual effect
         pygame.display.set_caption("Connect-4")
+
+        # Draw black bar to cover any previous pieces above game board
+        pygame.draw.rect(self.screen,BLACK,(0,0,WIDTH,SQUARESIZE))
         
         for r in range(ROW_COUNT):
             for c in range(COL_COUNT):
@@ -81,14 +85,17 @@ class GUI:
             pygame.draw.circle(self.screen,RED,(mousePosition,int(SQUARESIZE/2)),RADIUS)
         else:
             # Draw Yellow piece if it is Player 1's turn
+            mousePosition = (int(mousePosition*SQUARESIZE+SQUARESIZE/2))
             pygame.draw.circle(self.screen,YELLOW,(mousePosition,int(SQUARESIZE/2)),RADIUS)
         pygame.display.update()
 
     # A function to display a message to the winner, and close the game
     def game_over(self,winner,waitTime):
-        """
+        """ Display message to winner, wait a few seconds, then close the game Window. 
+
             Params:     winner (int): player who won the game
                         waitTime (int): time to wait before closing window (milliseconds)
+            Returns:    does not return aything
         """
         # Print win message on screen
         if winner == 1:
@@ -102,4 +109,13 @@ class GUI:
         pygame.display.update()
 
         # Wait before closing window
+        self.wait(waitTime)
+
+    def wait(self,waitTime):
+        """ Helper function to make screen wait for given time in milliseconds
+            
+            Params:     
+                        waitTime (int): time to wait before closing window (milliseconds)
+        """
+        # Wait using pygame's time.wait function
         pygame.time.wait(waitTime)
