@@ -59,28 +59,26 @@ class Board:
         return self.matrix == other.matrix
 
     # A function to check if the move is valid
-    def isValidMove(self,point):
+    def isValidMove(self,col):
         """
-            Params: point (tuple) - containing valid (row,col) position on board
+            Params:     point (tuple) - containing valid (row,col) position on board
 
-            Returns: True/False, True = matrix[row][col] is 0, False = matrix[row][col] == 1 | 2
+            Returns:    row - row containing valid move for col
+                        False - if no move is valid for col
         """
-        # Set point to first tuple in *point args
-        row,col = point
 
-        # Verify that the index of point actually exists in the matrix
-        try:
-            self.matrix[row][col]
-        except (ValueError, IndexError):
-            return False
+        for row in range((ROW_COUNT-1),-1,-1):
+            # Verify that the index of point actually exists in the matrix
+            try:
+                self.matrix[row][col]
+            except (ValueError, IndexError):
+                continue
+            
+            # Since we know the point exists, check it's value
+            if self.matrix[row][col] == 0:
+                return row
         
-        # Since we know the point exists, check it's value
-        
-        moveVal = self.matrix[row][col]
-        if moveVal != 0:
-            return False
-        
-        return True
+        return False
     
     # Function to return array of points located next to  input point
     def neighbors(self,point,position):
@@ -161,16 +159,12 @@ class Board:
         """
         moveBoard = self.duplicate()
         # Set point to first tuple in *point args
-        point = None
-        for row in range((ROW_COUNT-1),-1,-1):
-            point = (row,col)
+        row = moveBoard.isValidMove( col )
             
-            if moveBoard.isValidMove( point ):
-                break
         
         
         # If move is invalid, return None
-        if point is None:
+        if row is False:
             return None
         
         # Verify the player number is valid
@@ -178,10 +172,9 @@ class Board:
             return ValueError("Invalid playerValue!")
 
         # Since the playerValue and point is valid, make the move
-        row, col = point
         moveBoard.matrix[row][col] = playerValue
         
-        
+        point = (row,col)
         # If someone won, set winner value
         if moveBoard.win_state(point) is not None:
             moveBoard.winner = playerValue
