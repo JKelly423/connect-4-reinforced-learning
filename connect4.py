@@ -73,7 +73,7 @@ def play_GUI():
     screen.draw_board(path[-1].board)
     
     # Set random starting player
-    turn = Player.random.uniform(0,1)
+    turn = 0
 
     # Set winner to the board.winner value of the most recent board in path[]
     # Winner = None if board is not at win state
@@ -82,7 +82,7 @@ def play_GUI():
 
     # While the board not in win state (aka. exit once board in win state)
     while winner is None:
-
+        
         for event in GUI.pygame.event.get():
             # Close window if window's 'x' button is clicked
             if event.type == GUI.pygame.QUIT:
@@ -102,13 +102,23 @@ def play_GUI():
 
                 # Player 1 input
                 if turn%2 == 0:
+                    
+                    
+
                     # Get x position of where mouse was clicked to determine column
                     mouseClickPos = event.pos[0] 
+
                     # Get col from mouseClickPos
                     col = int(GUI.math.floor(mouseClickPos/screen.SQUARESIZE))
+
                     if board.isValidMove(col):
                         makeMove(path[-1],col,1)
                         winner = path[-1].board.winner
+                        print("board.score_board: " + str(path[-1].board.score_board(1)))
+                        # Draw piece at top of column
+                        screen.mouse_piece(mouseClickPos,turn)
+                        # Wait 0.1 seconds after drawing piece at top of column
+                        screen.wait(100)
                         screen.draw_board(path[-1].board)
                     turn += 1
                     
@@ -132,14 +142,15 @@ def play_GUI():
         # Player 2 input
         if turn%2 == 1:
             # Get column from AI player, move depends on type of player
-            col = AI.get_col_move(path[-1])
+            col = AI.minimax_get_best_move(path[-1],0)
             if board.isValidMove(col):
                 makeMove(path[-1],col,AI.playerValue)
                 winner = path[-1].board.winner
                 # Wait for 2 seconds to make the move seem more natural, not instant
-                #screen.wait(1000)
+                screen.wait(1000)
                 # Draw piece at top of column
                 screen.mouse_piece(col,turn)
+                # Wait 0.8 seconds after drawing piece at top of column
                 screen.wait(800)
                 screen.draw_board(path[-1].board)
             turn += 1

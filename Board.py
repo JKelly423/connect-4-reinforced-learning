@@ -44,13 +44,13 @@ class Board:
             self.winner = None
         else:
             self.winner = winner
-            
+
+        self.score = None    
 
         for index, element in np.ndenumerate(self.matrix):
             # confirm that the matrix all contains valid values
             if element != 0 and element != 1 and element != 2:
-                print("Elem: " + str(element))
-                return
+                print("Invalid Element: " + str(element))
                 raise ValueError("Invalid Matrix!")
     
     # A function to checks if two Boards are equal
@@ -152,11 +152,20 @@ class Board:
                     
     # A function to create a copy of the Board object itself
     def duplicate(self):
+        """ A function to create a copy of the Board object itself.
+
+            Used to create duplicates of each Board in order to ensure each State's board is unique to when the state was initilized.
+
+            Params:     self - Board instance
+
+            Returns:    duplicate new board instance
+        """
         new_matrix = [row.copy() for row in self.matrix]
         return Board(new_matrix,self.winner)
 
     def makeMove(self,col,playerValue):
-        """
+        """ A function to make a move on the board in the given column for the given player value.
+
             Params:     col (int) - column position of position on board
                         player (int) - value of player for board (1 or 2) - used for coloring pieces
             
@@ -166,8 +175,6 @@ class Board:
         moveBoard = self.duplicate()
         # Set point to first tuple in *point args
         row = moveBoard.isValidMove( col )
-            
-        
         
         # If move is invalid, return None
         if row is False:
@@ -187,9 +194,27 @@ class Board:
             
         return moveBoard
 
+    # A function to return a list of valid col positions for moves
+    def get_valid_positions(self):
+        """ A function to return a list of valid columns positions on board
+
+            Params:     self - Board instance
+
+            Returns:    valid_positions - list of valid columns on the board 
+
+            Valid means that the columns are not entirely filled up and that a move can be made there
+        """
+        valid_positions = []
+        for c in range(self.COL_COUNT):
+            # Since a move is valid as long as the entire row is not filled, we only have to check that row 0 (the top row) in each column is valid.
+            if self.matrix[0][c] == 0:
+                valid_positions.append(c)
+        return valid_positions
+
     # A function to check if the move made resulted in a winning state
     def win_state(self,point):
-        """
+        """ A function to check if the move made resulted in a winning state.
+
             Params:     point (tuple) - containing valid (row,col) position on board
             
             Returns:    point (tuple) - final point of winning streak
@@ -231,7 +256,104 @@ class Board:
                     return helper
         return None
 
+    # A function to score the board for a given playerValue for minimax
+    def score_board(self,playerValue):
+        """ A function to score the board for a given playerValue
+            Params:     
+            
+            Returns:    
+                        
+        """
+        self.score = 0
+        scoreOne = 0
+        scoreTwo = 0
+        if playerValue == 1:
+            oppValue = 2
+        else:
+            oppValue = 1
+        # List to keep track of scored points, this way we don't score duplicate positions
+        scored_points = []
 
+
+        # A tail recursive helper function
+        def score_board_helper(neighboringPts,streak=2,score=0):
+            """ A function
+            """
+            point,position = neighboringPts
+            row,col = point
+            
+            scored_points.append(point)
+
+            neighbor = self.neighbors(point,position)
+            if neighbor is not None:
+                nR,nC = neighbor
+                if self.matrix[nR][nC] == self.matrix[row][col]:
+                    streak += 1
+                    if streak == 4:
+                        value = self.matrix[row][col]
+                        if value == playerValue:
+                            score += 100
+                        else:
+                            score += 150
+                        
+                        return score
+                    return score_board_helper( (neighbor,position),(streak) )
+            value = self.matrix[row][col]
+            if streak == 2:
+                if value == playerValue:
+                    score += 5
+                else:
+                    score += 8
+            
+            if streak == 3:
+                if value == playerValue:
+                    score += 10
+                else:
+                    score += 12
+
+            return score
+
+        def start_scoring(point,playerVal):
+            for i in range(COL_COUNT+1):
+                neighbor = self.neighbors(point,i)
+                if neighbor is None:
+                    continue
+                
+                if neighbor in scored_points:
+                    continue
+            
+                nR,nC = neighbor
+                neighborVal = self.matrix[nR][nC]
+                if neighborVal == playerVal:
+                    return score_board_helper((neighbor,i))
+            return None
+        
+        scoreOne, scoreTwo = 0,0
+        for row in range(0,ROW_COUNT):
+            for col in range(0,COL_COUNT):
+                point = (row,col)
+
+                if point in scored_points:
+                        continue
+
+                pointValue = self.matrix[row][col]
+                if pointValue == playerValue:
+                    score = start_scoring(point,playerValue)
+                    if score is not None:
+                        scoreOne += score
+
+                        
+
+                        
+                if pointValue == oppValue:
+                    
+                    score = start_scoring(point,oppValue)
+                    if score is not None:
+                        scoreTwo += score
+ 
+                        
+
+        return scoreOne - scoreTwo
 
     # A function to provide a string representation of the board
     def __str__(self):
