@@ -1,6 +1,7 @@
 ###############
-# State Class #   
+# State Class #
 ###############
+
 
 class State:
     """
@@ -19,7 +20,6 @@ class State:
         self.parent_state = parent_state
         self.depth = depth
         self.fvalue = fvalue
-
 
     # Checks if the f-value of this board is less than the f-value of another board
     def __lt__(self, other):

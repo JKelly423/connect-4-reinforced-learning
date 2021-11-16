@@ -5,9 +5,9 @@ description = ""
 authors = ["Jack Kelly <kelly14@iu.edu","Cassie Chaput <Cchaput@iu.edu>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-cl-chess = "^1.2.7"
+python = ">=3.8,<3.11"
 pygame = "^2.1.0"
+numpy = "^1.21.4"
 
 [tool.poetry.dev-dependencies]
 
