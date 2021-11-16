@@ -4,6 +4,7 @@
 # Holds all methods and packages related to automated player actions
 import random
 import State
+import math
 
 class Player:
     """ Player object to handle logic of automated player actions
@@ -30,6 +31,11 @@ class Player:
         """Create new instance of player class"""
         self.type = playerType
         self.playerValue = playerValue
+
+        if self.playerValue == 1:
+            self.oppValue = 2
+        else:
+            self.oppValue = 1
         
 
     # A function to represent the player instance as a string
@@ -43,65 +49,95 @@ class Player:
         return random.randrange(state.board.COL_COUNT)
 
     # A function to get the best move for minimax based on state and self.playerValue
-    def minimax_get_best_move(self,state,minORmax):
+    def minimax(self,board,depth,alpha,beta, maximizingPlayer):
         """ A function to get the best move for minimax based on state and self.playerValue
 
             Params:     self - Player instance
-                        state - State instance
-                        minORMAX - 0 = min, 1 = max
+                        board - Board instance
+                        alpha - int 
+                        beta - int 
+                        maximizingPlayer - True/False
 
             Returns:    column - int location of best column move for minimax player
-                        None - if no moves can be made
+                        value - value returned column
         """
-        if state is None:
-            raise ValueError("State cannot be None!")
-
-        if minORmax != 1 and minORmax != 0:
-            raise ValueError("Invalid minORmax value!")
-
-        # List of [col,score] move pairs
-        move_states = []
-
-        board = state.board
-        # List of valid columns on the board
         valid_positions = board.get_valid_positions()
-        for col in valid_positions:
-            row = board.isValidMove(col)
-            # Continue if no valid move exists for this col
-            if row is None:
-                continue
 
-            moveBoard = board.makeMove(col,self.playerValue)
-            score = moveBoard.score_board(self.playerValue)
 
-            # Create state for new board with fvalue = score
-            #move_state = State.State(moveBoard,state,(state.depth+1),score)
+        # If depth is 0, return score of board
+        if depth == 0:
+            return(None, board.score_board(self.playerValue))
+        
+
+        ## Maximizing Player
+        if maximizingPlayer:
+            value = -math.inf
+            column = None
+            for col in valid_positions:
+                moveBoard = board.makeMove(col,self.playerValue)
+                if moveBoard is None:
+                    continue
+
+                if moveBoard.winner == self.playerValue:
+                    return(col, 100000000000000)
+                elif moveBoard.winner == self.oppValue:
+                    return(col, -100000000000000)
+
+                moveBoard_score = self.minimax(moveBoard,(depth-1),alpha,beta,False)[1]
+                if moveBoard_score > value:
+                    value = moveBoard_score
+                    column = col
+                alpha = max(alpha,value)
+                if alpha >= beta:
+                    break
             
-            # Append list containing [state,col]
-            move_states.append( (score,col) )
-        
+            return column, value
 
-        # Sort moves based on state fvalue and if min/max
-        if minORmax == 0:
-            # Sort by lowest fvalue if Min
-            move_states.sort(key=lambda x:x[0])
+        ## Minimizing Player
         else:
-            # Sort by highest fvalue if Max
-            move_states.sort(key=lambda x:x[0],reverse=True)
+            value = math.inf
+            column = None
+            for col in valid_positions:
+                moveBoard = board.makeMove(col,self.oppValue)
+                if moveBoard is None:
+                    continue
 
-        
-        # Return None if sortedMoves is empty
-        try:
-            move_states[0]
-        except (ValueError, IndexError):
-            return None
-        
+                if moveBoard.winner == self.playerValue:
+                    return(col, 100000000000000)
+                elif moveBoard.winner == self.oppValue:
+                    return(col, -100000000000000)
 
-        # Get first item from sortedMoves
-        bestMove = move_states[0]
+                moveBoard_score = self.minimax(moveBoard,(depth-1),alpha,beta,True)[1]
+                if moveBoard_score < value:
+                    value = moveBoard_score
+                    column = col
+                beta = min(beta,value)
+                if alpha >= beta:
+                    break
+            
+            return column, value
+
+
+
+        pass
+
+    # A function to return the player's best move for a given state
+    def get_best_move(self,state):
+        board = state.board
+        valid_positions = board.get_valid_positions()
+        top_score = -99999
+        best_col = None
+        for col in valid_positions:
+            moveBoard = board.makeMove(col,self.playerValue)
+            if moveBoard is None:
+                continue
+            score = moveBoard.score_board(self.playerValue)
+            if score > top_score:
+                top_score = score
+                best_col = col
         
-        # Return column of best move
-        return bestMove[1]
+        return best_col
+
 
     # A function to choose a col for next move (depends on player type)
     def get_col_move(self,state):

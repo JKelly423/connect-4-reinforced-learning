@@ -114,7 +114,6 @@ def play_GUI():
                     if board.isValidMove(col):
                         makeMove(path[-1],col,1)
                         winner = path[-1].board.winner
-                        print("board.score_board: " + str(path[-1].board.score_board(1)))
                         # Draw piece at top of column
                         screen.mouse_piece(mouseClickPos,turn)
                         # Wait 0.1 seconds after drawing piece at top of column
@@ -142,12 +141,12 @@ def play_GUI():
         # Player 2 input
         if turn%2 == 1:
             # Get column from AI player, move depends on type of player
-            col = AI.minimax_get_best_move(path[-1],0)
+            col, minimax_score = AI.minimax(path[-1].board,5,-Player.math.inf, Player.math.inf, True)
             if board.isValidMove(col):
                 makeMove(path[-1],col,AI.playerValue)
                 winner = path[-1].board.winner
                 # Wait for 2 seconds to make the move seem more natural, not instant
-                screen.wait(1000)
+                #screen.wait(1000)
                 # Draw piece at top of column
                 screen.mouse_piece(col,turn)
                 # Wait 0.8 seconds after drawing piece at top of column
@@ -155,8 +154,8 @@ def play_GUI():
                 screen.draw_board(path[-1].board)
             turn += 1
 
-    # Print win message in window, and close after 3 seconds
-    screen.game_over(winner,3000)
+    # Print win message in window, and close after 7 seconds
+    screen.game_over(winner,7000)
 
 
 

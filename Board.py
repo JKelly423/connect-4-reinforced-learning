@@ -255,6 +255,37 @@ class Board:
                 if helper is not None:
                     return helper
         return None
+    
+    # A function to score a list of 4 neighboring points
+    def score_neighbors(self,neighbors,playerValue):
+        score = 0
+        
+        oppValue = 2
+        if playerValue == 2:
+            oppValue = 1
+        
+        # If all 4 pieces are = playerValue, score is increased by 100
+        if neighbors.count(playerValue) == 4:
+            score += 100
+
+        # If 3 pieces are playerValue and one piece is unplayed, score += 5
+        if neighbors.count(playerValue) == 3 and neighbors.count(0) == 1:
+            score += 5
+
+        # If 2 pieces are playerValue and 2 pieces are unplayed, score += 2
+        if neighbors.count(playerValue) == 2 and neighbors.count(0) == 2:
+            score += 2
+        
+        # If 3 pieces are oppValue and 1 piece is unplayed, score -= 4
+        if neighbors.count(oppValue) == 3 and neighbors.count(0) == 1:
+            score -= 4
+        
+        # If opponent won game, score -= 100
+        if neighbors.count(oppValue) == 4:
+            score -= 100
+        
+        return score
+
 
     # A function to score the board for a given playerValue for minimax
     def score_board(self,playerValue):
@@ -264,96 +295,53 @@ class Board:
             Returns:    
                         
         """
-        self.score = 0
-        scoreOne = 0
-        scoreTwo = 0
-        if playerValue == 1:
-            oppValue = 2
-        else:
-            oppValue = 1
-        # List to keep track of scored points, this way we don't score duplicate positions
-        scored_points = []
-
-
-        # A tail recursive helper function
-        def score_board_helper(neighboringPts,streak=2,score=0):
-            """ A function
-            """
-            point,position = neighboringPts
-            row,col = point
-            
-            scored_points.append(point)
-
-            neighbor = self.neighbors(point,position)
-            if neighbor is not None:
-                nR,nC = neighbor
-                if self.matrix[nR][nC] == self.matrix[row][col]:
-                    streak += 1
-                    if streak == 4:
-                        value = self.matrix[row][col]
-                        if value == playerValue:
-                            score += 100
-                        else:
-                            score += 150
-                        
-                        return score
-                    return score_board_helper( (neighbor,position),(streak) )
-            value = self.matrix[row][col]
-            if streak == 2:
-                if value == playerValue:
-                    score += 5
-                else:
-                    score += 8
-            
-            if streak == 3:
-                if value == playerValue:
-                    score += 10
-                else:
-                    score += 12
-
-            return score
-
-        def start_scoring(point,playerVal):
-            for i in range(COL_COUNT+1):
-                neighbor = self.neighbors(point,i)
-                if neighbor is None:
-                    continue
-                
-                if neighbor in scored_points:
-                    continue
-            
-                nR,nC = neighbor
-                neighborVal = self.matrix[nR][nC]
-                if neighborVal == playerVal:
-                    return score_board_helper((neighbor,i))
-            return None
+        # Number of pieces in a row needed to win
+        WIN_PIECE_COUNT = 4
         
-        scoreOne, scoreTwo = 0,0
-        for row in range(0,ROW_COUNT):
-            for col in range(0,COL_COUNT):
-                point = (row,col)
+        # Set variable to hold np array of board Matrix
+        board_array = np.array(self.matrix)
 
-                if point in scored_points:
-                        continue
+        score = 0
+        
+        # Score multiplier for center board position
+        CENTER_PIECE_MULTIPLIER = 3
 
-                pointValue = self.matrix[row][col]
-                if pointValue == playerValue:
-                    score = start_scoring(point,playerValue)
-                    if score is not None:
-                        scoreOne += score
+        # Positions in the center of the board are more advantagous
+        
+        ## Score Center Column
+        center_pieces = [int(i) for i in list(board_array[:,COL_COUNT//2])]
+        center_piece_count = center_pieces.count(playerValue)
+        score += center_piece_count * CENTER_PIECE_MULTIPLIER
 
-                        
+        ## Score Horizontal
+        for row in range(ROW_COUNT):
+            row_values = [int(i) for i in list(board_array[row,:])]
+            # Remove 3 from col count since 3rd to last col will check up to last column
+            for col in range(COL_COUNT-3):
+                next_4_neighbors = row_values[col:col+WIN_PIECE_COUNT]
+                score += self.score_neighbors(next_4_neighbors,playerValue)
 
-                        
-                if pointValue == oppValue:
-                    
-                    score = start_scoring(point,oppValue)
-                    if score is not None:
-                        scoreTwo += score
- 
-                        
+        ## Score Vertical
+        for col in range(COL_COUNT):
+            col_values = [int(i) for i in list(board_array[:,col])]
+             # Remove 3 from row count since 3rd to last row will check up to last row
+            for row in range(ROW_COUNT-3):
+                next_4_neighbors = col_values[row:row+WIN_PIECE_COUNT]
+                score += self.score_neighbors(next_4_neighbors,playerValue)
+        
+        ## Score Positive Diagonal
+        for row in range (ROW_COUNT-3):
+            for col in range(COL_COUNT-3):
+                next_4_neighbors = [board_array[row+i][col+i] for i in range(WIN_PIECE_COUNT)]
+                score += self.score_neighbors(next_4_neighbors,playerValue)
+        
+        ## Score Negative Diagonal
+        for row in range (ROW_COUNT-3):
+            for col in range(COL_COUNT-3):
+                next_4_neighbors = [self.matrix[row+3-i][col+i] for i in range(WIN_PIECE_COUNT)]
+                score += self.score_neighbors(next_4_neighbors,playerValue)
 
-        return scoreOne - scoreTwo
+        return score
 
     # A function to provide a string representation of the board
     def __str__(self):
