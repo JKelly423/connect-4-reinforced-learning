@@ -1,0 +1,12 @@
+FINAL-Connect-4-v010
+====================
+
+.. toctree::
+   :maxdepth: 4
+
+   Board
+   GUI
+   Player
+   State
+   connect4
+   debug

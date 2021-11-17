@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Board module &mdash; Connect-4 Minimax AI  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="GUI module" href="GUI.html" />
+    <link rel="prev" title="FINAL-Connect-4-v010" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Connect-4 Minimax AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">FINAL-Connect-4-v010</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Board module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GUI.html">GUI module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Player.html">Player module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="State.html">State module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="connect4.html">connect4 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug.html">debug module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Connect-4 Minimax AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">FINAL-Connect-4-v010</a> &raquo;</li>
+      <li>Board module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Board.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Board">
+<span id="board-module"></span><h1>Board module<a class="headerlink" href="#module-Board" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Board.Board">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Board.</span></span><span class="sig-name descname"><span class="pre">Board</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class represents the actual connect4 board the game is played on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> (<em>ndarray</em><em>, </em><em>optional</em>) – ndarray of the current board representation, defaults to <em>None</em></p></li>
+<li><p><strong>winner</strong> (<em>int</em><em>, </em><em>optional</em>) – player who won the game, defaults to <em>None</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="field-list simple">
+<dt class="field-odd">param ROW_COUNT</dt>
+<dd class="field-odd"><p>Number of Rows</p>
+</dd>
+<dt class="field-even">type ROW_COUNT</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">param COL_COUNT</dt>
+<dd class="field-odd"><p>Number of Columns</p>
+</dd>
+<dt class="field-even">type COL_COUNT</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">param</dt>
+<dd class="field-odd"><p>winner: player who won the game, defaults to <em>None</em></p>
+</dd>
+<dt class="field-even">type winner</dt>
+<dd class="field-even"><p>int, <em>None</em></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Board.Board.duplicate">
+<span class="sig-name descname"><span class="pre">duplicate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.duplicate" title="Permalink to this definition"></a></dt>
+<dd><p>A function to create a copy of the Board object itself.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Duplicate board instance</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>Board</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Board.Board.get_valid_positions">
+<span class="sig-name descname"><span class="pre">get_valid_positions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.get_valid_positions" title="Permalink to this definition"></a></dt>
+<dd><p>A function to return a list of valid columns positions on board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list of valid columns on the board</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of int values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Board.Board.isValidMove">
+<span class="sig-name descname"><span class="pre">isValidMove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.isValidMove" title="Permalink to this definition"></a></dt>
+<dd><p>A function to return the next valid row of a given column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>col</strong> (<em>int</em>) – column position of position on board</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>row containing valid move for col, <em>None</em> if no valid move exists</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int, None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Board.Board.makeMove">
+<span class="sig-name descname"><span class="pre">makeMove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playerValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.makeMove" title="Permalink to this definition"></a></dt>
+<dd><p>A function to make a move on the board in the given column for the given player value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>col</strong> (<em>int</em>) – column position of position on board</p></li>
+<li><p><strong>playerValue</strong> (<em>int: 1</em><em> or </em><em>2</em>) – value of player, used for coloring pieces</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p>ValueError: if playerValue is invalid</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Duplicate board with move made, <em>None</em> if no move can be made</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><em>Board</em>, <em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Board.Board.neighbors">
+<span class="sig-name descname"><span class="pre">neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.neighbors" title="Permalink to this definition"></a></dt>
+<dd><p>Return array of points located next to (a.k.a. ‘neighboring’) point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> (<em>(</em><em>int</em><em>,</em><em>int</em><em>) </em><em>tuple</em>) – valid (row,col) position on board</p></li>
+<li><p><strong>position</strong> (<em>int</em>) – value specifiying direction of neighbor</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p>ValueError: if point does not exist on Board
+ValueError: if position is invalid</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of valid points neighboring point, <em>None</em> if neighbor does not exist</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list, None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Board.Board.score_board">
+<span class="sig-name descname"><span class="pre">score_board</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playerValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.score_board" title="Permalink to this definition"></a></dt>
+<dd><p>A function to score the board for a given player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>playerValue</strong> (<em>int: 1</em><em> or </em><em>2</em>) – value of player, used for coloring pieces</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>score of board for given playerValue</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Board.Board.score_neighbors">
+<span class="sig-name descname"><span class="pre">score_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">neighbors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playerValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.score_neighbors" title="Permalink to this definition"></a></dt>
+<dd><p>A function to score a list of 4 neighboring points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>neighbors</strong> (<em>list</em>) – 4 points in a row</p></li>
+<li><p><strong>playerValue</strong> (<em>int: 1</em><em> or </em><em>2</em>) – value of player, used for coloring pieces</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>score for the given points</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Board.Board.win_state">
+<span class="sig-name descname"><span class="pre">win_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.win_state" title="Permalink to this definition"></a></dt>
+<dd><p>A function to check if the move made resulted in a winning state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>point</strong> (<em>(</em><em>int</em><em>,</em><em>int</em><em>) </em><em>tuple</em>) – valid (row,col) position on board</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>final point (row,col) of winning streak, <em>None</em> if no win state is achieved</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(int,int) tuple, <em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="FINAL-Connect-4-v010" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GUI.html" class="btn btn-neutral float-right" title="GUI module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Jack Kelly, Cassie Chaput.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
