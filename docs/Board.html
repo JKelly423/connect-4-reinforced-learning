@@ -90,26 +90,26 @@
 </ul>
 </dd>
 <dt class="field-even">Attributes</dt>
-<dd class="field-even"><dl class="field-list simple">
-<dt class="field-odd">param ROW_COUNT</dt>
-<dd class="field-odd"><p>Number of Rows</p>
-</dd>
-<dt class="field-even">type ROW_COUNT</dt>
-<dd class="field-even"><p>int</p>
-</dd>
-<dt class="field-odd">param COL_COUNT</dt>
-<dd class="field-odd"><p>Number of Columns</p>
-</dd>
-<dt class="field-even">type COL_COUNT</dt>
-<dd class="field-even"><p>int</p>
-</dd>
-<dt class="field-odd">param</dt>
-<dd class="field-odd"><p>winner: player who won the game, defaults to <em>None</em></p>
-</dd>
-<dt class="field-even">type winner</dt>
-<dd class="field-even"><p>int, <em>None</em></p>
+<dd class="field-even"><ul class="simple">
+<li><dl class="field-list simple">
+<dt class="field-odd">ROW_COUNT (<em>int</em>)</dt>
+<dd class="field-odd"><p>number of rows</p>
 </dd>
 </dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">COL_COUNT (<em>int</em>)</dt>
+<dd class="field-odd"><p>number of columns</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">winner (<em>int</em>)</dt>
+<dd class="field-odd"><p>player who won the game, defaults to <em>None</em></p>
+</dd>
+</dl>
+</li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
@@ -121,7 +121,7 @@
 <dd class="field-odd"><p>Duplicate board instance</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><em>Board</em></p>
+<dd class="field-even"><p><a class="reference internal" href="#Board.Board" title="Board.Board"><code class="xref py py-class docutils literal notranslate"><span class="pre">Board</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -152,7 +152,7 @@
 <dd class="field-even"><p>row containing valid move for col, <em>None</em> if no valid move exists</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>int, None</p>
+<dd class="field-odd"><p>int or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -175,7 +175,7 @@
 <dd class="field-odd"><p>Duplicate board with move made, <em>None</em> if no move can be made</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><em>Board</em>, <em>None</em></p>
+<dd class="field-even"><p><a class="reference internal" href="#Board.Board" title="Board.Board"><code class="xref py py-class docutils literal notranslate"><span class="pre">Board</span></code></a> or <em>None</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -199,7 +199,7 @@ ValueError: if position is invalid</p>
 <dd class="field-odd"><p>List of valid points neighboring point, <em>None</em> if neighbor does not exist</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>list, None</p>
+<dd class="field-even"><p>list or None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -253,7 +253,7 @@ ValueError: if position is invalid</p>
 <dd class="field-even"><p>final point (row,col) of winning streak, <em>None</em> if no win state is achieved</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>(int,int) tuple, <em>None</em></p>
+<dd class="field-odd"><p>(int,int) tuple or <em>None</em></p>
 </dd>
 </dl>
 </dd></dl>

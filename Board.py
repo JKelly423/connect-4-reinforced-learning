@@ -11,26 +11,25 @@ COL_COUNT = 7
 
 
 class Board:
-    """
-        This class represents the actual Board of the game
+    """This class represents the actual connect4 board the game is played on.
 
-        matrix- double sub-scripted list containing description of the current game State with 0 = blank, 1 = playerOne, and 2 = playerTwo
+        :param matrix: ndarray of the current board representation, defaults to *None*
+        :type matrix: ndarray, optional
+        :param winner: player who won the game, defaults to *None*
+        :type winner: int, optional
 
-        winner (int) - player who won the game, None if game not won
-
-        ROW_COUNT (int) - # of Rows 
-        COL_COUNT (int) - # of Columns
+        :Attributes:
+            * :ROW_COUNT (*int*): number of rows
+            * :COL_COUNT (*int*): number of columns
+            * :winner (*int*): player who won the game, defaults to *None*
     """
 
     # The connect-4 puzzle board representation
     def __init__(self, matrix=None, winner=None):
-        """
-            Create the board object
+        """Constructor method.
 
-        Paramaters: matrix - numpy 2D matrix representing the board state.
-                    winner - winner of game, None if game not won
-
-        Returns: Creates board, returns nothing
+        :raises:
+            ValueError: value in given matrix is invalid
         """
         self.ROW_COUNT = ROW_COUNT
         self.COL_COUNT = COL_COUNT
@@ -45,7 +44,6 @@ class Board:
         else:
             self.winner = winner
 
-        self.score = None
 
         for index, element in np.ndenumerate(self.matrix):
             # confirm that the matrix all contains valid values
@@ -55,10 +53,12 @@ class Board:
 
     # A function to checks if two Boards are equal
     def __eq__(self, other):
-        """
-            Params:     other (Board) - other board to compare self to
+        """A function to checks if two Boards are the same.
+
+            :param other: board to compare self to
             
-            Returns:    True if the two boards are equal
+            :return: *True* if the two boards are equal, *False* if not
+            :rtype: bool
         """
         if not isinstance(other, Board):
             return False
@@ -66,11 +66,13 @@ class Board:
 
     # A function to check if the move is valid
     def isValidMove(self, col):
-        """
-            Params:     point (tuple) - containing valid (row,col) position on board
+        """A function to return the next valid row of a given column. 
 
-            Returns:    row - row containing valid move for col
-                        False - if no move is valid for col
+        :param col: column position of position on board
+        :type col: int
+
+        :return: row containing valid move for col, *None* if no valid move exists
+        :rtype: int or None
         """
 
         for row in range((ROW_COUNT - 1), -1, -1):
@@ -84,17 +86,23 @@ class Board:
             if self.matrix[row][col] == 0:
                 return row
 
-        return False
+        return None
 
     # Function to return array of points located next to  input point
     def neighbors(self, point, position):
-        """
-            Params:     point (tuple) - containing valid (row,col) position on board
-                        position (int) - int specifiying which neighbor to check
-                        
+        """Return array of points located next to (a.k.a. 'neighboring') point.
+
+            :param point: valid (row,col) position on board
+            :type point: (int,int) tuple
+            :param position: value specifiying direction of neighbor
+            :type position: int
             
-            Returns:    array of valid (they exist on the board) points neighboring the paramater point
-            Returns:    None neighbor does not exist
+            :raises:
+                ValueError: if point does not exist on Board
+                ValueError: if position is invalid
+
+            :return: List of valid points neighboring point, *None* if neighbor does not exist
+            :rtype: list or None
         """
         # Set point to first tuple in *point args
         row, col = point
@@ -151,25 +159,27 @@ class Board:
 
     # A function to create a copy of the Board object itself
     def duplicate(self):
-        """ A function to create a copy of the Board object itself.
+        """A function to create a copy of the Board object itself.
 
-            Used to create duplicates of each Board in order to ensure each State's board is unique to when the state was initilized.
-
-            Params:     self - Board instance
-
-            Returns:    duplicate new board instance
+        :return: Duplicate board instance
+        :rtype: :class:`.Board`
         """
         new_matrix = [row.copy() for row in self.matrix]
         return Board(new_matrix, self.winner)
 
     def makeMove(self, col, playerValue):
-        """ A function to make a move on the board in the given column for the given player value.
+        """A function to make a move on the board in the given column for the given player value.
 
-            Params:     col (int) - column position of position on board
-                        player (int) - value of player for board (1 or 2) - used for coloring pieces
+        :param col: column position of position on board
+        :type col: int
+        :param playerValue: value of player, used for coloring pieces
+        :type playerValue: int: 1 or 2
             
-            Returns:    Board (Board) - representing the new state of the game after the move
-                        Returns None if no move can be made
+        :raises:
+            ValueError: if playerValue is invalid
+
+        :return: Duplicate board with move made, *None* if no move can be made
+        :rtype: :class:`.Board` or *None*
         """
         moveBoard = self.duplicate()
         # Set point to first tuple in *point args
@@ -195,13 +205,10 @@ class Board:
 
     # A function to return a list of valid col positions for moves
     def get_valid_positions(self):
-        """ A function to return a list of valid columns positions on board
+        """A function to return a list of valid columns positions on board.
 
-            Params:     self - Board instance
-
-            Returns:    valid_positions - list of valid columns on the board 
-
-            Valid means that the columns are not entirely filled up and that a move can be made there
+        :return: list of valid columns on the board 
+        :rtype: list of int values
         """
         valid_positions = []
         for c in range(self.COL_COUNT):
@@ -214,10 +221,11 @@ class Board:
     def win_state(self, point):
         """ A function to check if the move made resulted in a winning state.
 
-            Params:     point (tuple) - containing valid (row,col) position on board
+            :param point: valid (row,col) position on board
+            :type point: (int,int) tuple
             
-            Returns:    point (tuple) - final point of winning streak
-                        None if no win state is achieved
+            :return: final point (row,col) of winning streak, *None* if no win state is achieved
+            :rtype: (int,int) tuple or *None*
         """
         row, col = point
         # Verify point is valid
@@ -226,6 +234,16 @@ class Board:
 
         # A tail recursive helper function
         def win_state_helper(winningPt, streak=2):
+            """A tail recursive helper function for method:'win_state'.
+
+            :param winningPt: (point,position) tuple
+            :type winningPt: ( (int,int), int )
+            :param streak: current streak of common neighboring values, defaults to 'streak=2'
+            :type streak: int, optional
+
+            :return: final point of 4-point streak, *None* if streak less than 4
+            :rtype: (int,int) tuple or *None*
+            """
 
             point, position = winningPt
             row, col = point
@@ -257,6 +275,16 @@ class Board:
 
     # A function to score a list of 4 neighboring points
     def score_neighbors(self, neighbors, playerValue):
+        """A function to score a list of 4 neighboring points.
+
+        :param neighbors: 4 points in a row
+        :type neighbors: list
+        :param playerValue: value of player, used for coloring pieces
+        :type playerValue: int: 1 or 2
+
+        :returns: score for the given points
+        :rtype: int
+        """
         score = 0
 
         oppValue = 2
@@ -287,11 +315,13 @@ class Board:
 
     # A function to score the board for a given playerValue for minimax
     def score_board(self, playerValue):
-        """ A function to score the board for a given playerValue
-            Params:     
+        """ A function to score the board for a given player.
             
-            Returns:    
-                        
+        :param playerValue: value of player, used for coloring pieces
+        :type playerValue: int: 1 or 2
+            
+        :return: score of board for given playerValue
+        :rtype: int     
         """
         # Number of pieces in a row needed to win
         WIN_PIECE_COUNT = 4
@@ -349,6 +379,11 @@ class Board:
 
     # A function to provide a string representation of the board
     def __str__(self):
+        """A function to provide a string representation of the board.
+
+        :return: a string representation of the board, readable by humans
+        :rtype: str
+        """
         # s will be used to hold everything we are returning, and will be returned at the end
         s = '\n'
 
