@@ -81,44 +81,91 @@
 <dt class="sig sig-object py" id="Player.Player">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Player.</span></span><span class="sig-name descname"><span class="pre">Player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">playerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">playerValue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Player.Player" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Player object to handle logic of automated player actions</p>
-<dl>
-<dt>Properties:     playerType (int) - type of Player</dt><dd><dl class="simple">
-<dt>playerType =    0: UserInput, </dt><dd><p>1: Random,
-2: Minimax,
-3: undefined (not sure what algorithm yet),</p>
+<p>This class encompases the Player object which handles the logic of automated player actions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>playerType</strong> (<em>int</em>) – type of Player (1: Random, 2: Minimax)</p></li>
+<li><p><strong>playerValue</strong> – number of Player (1 or 2)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="field-list simple">
+<dt class="field-odd">type (<em>int</em>)</dt>
+<dd class="field-odd"><p>Player type (1: Random, 2: Minimax)</p>
 </dd>
 </dl>
-<p>playerValue (int) - val of Player (1 or 2)</p>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">playerValue (<em>int</em>)</dt>
+<dd class="field-odd"><p>number of Player (1 or 2)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">oppValue (<em>int</em>)</dt>
+<dd class="field-odd"><p>number of opposing Player (1 or 2)</p>
+</dd>
+</dl>
+</li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="Player.Player.get_best_move">
 <span class="sig-name descname"><span class="pre">get_best_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Player.Player.get_best_move" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A function to return the player’s best move for a given state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>state</strong> (<a class="reference internal" href="State.html#State.State" title="State.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State.State</span></code></a>) – State instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>column index of best move</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Player.Player.get_col_move">
 <span class="sig-name descname"><span class="pre">get_col_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Player.Player.get_col_move" title="Permalink to this definition"></a></dt>
-<dd><p>Choose a column for next move, depending on type of player.</p>
-<dl class="simple">
-<dt>Params:     self - Player class instance </dt><dd><p>state - State class instance for current state</p>
+<dd><p>A function to choose a column for next move depending on the type of player.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>state</strong> (<a class="reference internal" href="State.html#State.State" title="State.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State.State</span></code></a>) – State instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>column for next move to be made</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
-<p>Returns:    column (int) - column for next move to be made</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="Player.Player.minimax">
 <span class="sig-name descname"><span class="pre">minimax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">board</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maximizingPlayer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Player.Player.minimax" title="Permalink to this definition"></a></dt>
 <dd><p>A function to get the best move for minimax player.</p>
-<dl class="simple">
-<dt>Params:     self - Player instance</dt><dd><p>board - Board instance
-alpha - int 
-beta - int 
-maximizingPlayer - True/False</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<a class="reference internal" href="#Player.Player" title="Player.Player"><code class="xref py py-class docutils literal notranslate"><span class="pre">Player.Player</span></code></a>) – Player instance</p></li>
+<li><p><strong>board</strong> (<a class="reference internal" href="Board.html#Board.Board" title="Board.Board"><code class="xref py py-class docutils literal notranslate"><span class="pre">Board.Board</span></code></a>) – Board instance</p></li>
+<li><p><strong>alpha</strong> (<em>int</em>) – alpha value</p></li>
+<li><p><strong>beta</strong> (<em>int</em>) – beta value</p></li>
+<li><p><strong>maximizingPlayer</strong> (<em>bool</em>) – <em>True</em> if player is maximizing player, <em>False</em> if player is minimizing player</p></li>
+</ul>
 </dd>
-<dt>Returns:    column - int location of best column move for minimax player</dt><dd><p>value - score of board for move in returned column</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>column - int location of best column move for minimax player
+value - score of board for move in returned column</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(column,value) tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -131,7 +178,19 @@ maximizingPlayer - True/False</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="Player.Player.random_col">
 <span class="sig-name descname"><span class="pre">random_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Player.Player.random_col" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A function to return a random column in the given state’s board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>state</strong> (<a class="reference internal" href="State.html#State.State" title="State.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State.State</span></code></a>) – State instance</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>random column on board</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

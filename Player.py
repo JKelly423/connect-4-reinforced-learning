@@ -7,15 +7,17 @@ import math
 
 
 class Player:
-    """ Player object to handle logic of automated player actions
-        
-        Properties:     playerType (int) - type of Player
-                        playerType =    0: UserInput, 
-                                        1: Random,
-                                        2: Minimax,
-                                        3: undefined (not sure what algorithm yet),
+    """This class encompases the Player object which handles the logic of automated player actions.
+    
+    :param playerType: type of Player (1: Random, 2: Minimax)
+    :type playerType: int
+    :param playerValue: number of Player (1 or 2)
 
-                        playerValue (int) - val of Player (1 or 2)
+
+    :Attributes:
+        * :type (*int*): Player type (1: Random, 2: Minimax)
+        * :playerValue (*int*): number of Player (1 or 2)
+        * :oppValue (*int*): number of opposing Player (1 or 2)
     """
 
     # A Dictionary to hold strings for playerType, will be used for __str__
@@ -28,7 +30,7 @@ class Player:
 
     # A function to initlizie the player
     def __init__(self, playerType, playerValue):
-        """Create new instance of player class"""
+        """Constructor Method."""
         self.type = playerType
         self.playerValue = playerValue
 
@@ -39,26 +41,43 @@ class Player:
 
     # A function to represent the player instance as a string
     def __str__(self):
-        """A function to represent a Player instance as a String"""
+        """A function to represent a Player instance as a String.
+        
+        :return: *None*
+        """
         pass
 
     # Random_Col will be used when playerType = 1 ("Random" player type)
     # A function to return a random column in the given state's board
     def random_col(self, state):
+        """A function to return a random column in the given state's board.
+
+        :param state: State instance
+        :type state: :class:`State.State`
+
+        :return: random column on board
+        :rtype: int
+        """
         return random.randrange(state.board.COL_COUNT)
 
     # A function to get the best move for minimax based on state and self.playerValue
     def minimax(self, board, depth, alpha, beta, maximizingPlayer):
-        """ A function to get the best move for minimax player.
+        """A function to get the best move for minimax player.
 
-            Params:     self - Player instance
-                        board - Board instance
-                        alpha - int 
-                        beta - int 
-                        maximizingPlayer - True/False
+        :param self: Player instance
+        :type self: :class:`Player.Player`
+        :param board: Board instance
+        :type board: :class:`Board.Board`
+        :param alpha: alpha value
+        :type alpha: int
+        :param beta: beta value 
+        :type beta: int
+        :param maximizingPlayer: *True* if player is maximizing player, *False* if player is minimizing player
+        :type maximizingPlayer: bool
 
-            Returns:    column - int location of best column move for minimax player
-                        value - score of board for move in returned column
+        :return: column - int location of best column move for minimax player
+                 value - score of board for move in returned column
+        :rtype: (column,value) tuple
         """
         valid_positions = board.get_valid_positions()
 
@@ -118,6 +137,14 @@ class Player:
 
     # A function to return the player's best move for a given state
     def get_best_move(self, state):
+        """A function to return the player's best move for a given state.
+        
+        :param state: State instance
+        :type state: :class:`State.State`
+
+        :return: column index of best move
+        :rtype: int
+        """
         board = state.board
         valid_positions = board.get_valid_positions()
         top_score = -99999
@@ -135,12 +162,13 @@ class Player:
 
     # A function to choose a col for next move (depends on player type)
     def get_col_move(self, state):
-        """ Choose a column for next move, depending on type of player.
+        """A function to choose a column for next move depending on the type of player.
 
-            Params:     self - Player class instance 
-                        state - State class instance for current state
+        :param state: State instance
+        :type state: :class:`State.State`
 
-            Returns:    column (int) - column for next move to be made
+        :return: column for next move to be made
+        :rtype: int
         """
         if self.type == 1:
             print("RANDOM")
