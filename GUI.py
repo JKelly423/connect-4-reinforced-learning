@@ -1,7 +1,6 @@
 #################
 #   GUI Class   #
 #################
-# Holds all methods and packages related to pygame and a GUI
 
 import pygame
 import Board
@@ -30,7 +29,24 @@ RADIUS = int(SQUARESIZE / 2 - 5)
 
 
 class GUI:
+    """This class encompases the graphical user interface and its methods.
+
+        :Attributes:
+            * :screen (*pygame.display*): GUI screen shown to user
+            * :SQUARESIZE (*int*): size of 1 square on the GUI screen
+            * :WIDTH (*int*): width of GUI screen
+            * :HEIGHT (*int*): height of GUI screen
+            * :SIZE (*tuple*): (WIDTH,HEIGHT) of GUI screen
+            * :RADIUS (*int*): size of game piece radius
+            * :BLUE (*RGB thruple*): BLUE color 
+            * :BLACK (*RGB thruple*): BLACK color 
+            * :RED (*RGB thruple*): RED color 
+            * :YELLOW (*RGB thruple*): YELLOW color 
+            * :BLUE (*RGB thruple*): BLUE color 
+            * :FONT (*pygame.font*): FONT of text for GUI screen
+    """
     def __init__(self):
+        """Constructor Method."""
         pygame.init()
         self.screen = pygame.display.set_mode(SIZE)
         self.SQUARESIZE = SQUARESIZE
@@ -45,6 +61,13 @@ class GUI:
         self.FONT = pygame.font.SysFont("monospace", 75)
 
     def draw_board(self, board):
+        """A function to draw the current board on the GUI screen.
+        
+        :param board: board object to draw
+        :board type: :class:`Board.Board`
+
+        :return: *None*
+        """
         # Change title bar of pygame window for visual effect
         pygame.display.set_caption("Connect-4")
 
@@ -86,6 +109,15 @@ class GUI:
 
     # A function to display the appropriate piece at the player's
     def mouse_piece(self, mousePosition, turn):
+        """A function to display the appropriate piece at the player's current mouse .
+
+        :param mousePosition: current mouse position on screen
+        :type mousePosition: int
+        :param turn: current turn count
+        :type turn: int
+
+        :return: *None*
+        """
         # Draw black bar to cover any previous pieces above game board
         pygame.draw.rect(self.screen, BLACK, (0, 0, WIDTH, SQUARESIZE))
         if turn % 2 == 0:
@@ -101,11 +133,14 @@ class GUI:
 
     # A function to display a message to the winner, and close the game
     def game_over(self, winner, waitTime):
-        """ Display message to winner, wait a few seconds, then close the game Window. 
+        """ A function to display a message to the winner, wait a few seconds, then close the game Window.
 
-            Params:     winner (int): player who won the game
-                        waitTime (int): time to wait before closing window (milliseconds)
-            Returns:    does not return aything
+            :param winner: player who won the game
+            :type winner: int
+            :param waitTime: time to wait before closing window (milliseconds)
+            :type waitTime: int
+
+            :return: *None*
         """
         # Print win message on screen
         if winner == 1:
@@ -122,10 +157,12 @@ class GUI:
         self.wait(waitTime)
 
     def wait(self, waitTime):
-        """ Helper function to make screen wait for given time in milliseconds
+        """ A function to make the screen wait for given time in milliseconds.
             
-            Params:     
-                        waitTime (int): time to wait before closing window (milliseconds)
+        :param waitTime: time to wait before closing window (milliseconds)
+        :type waitTime: int
+
+        :return: *None*
         """
         # Wait using pygame's time.wait function
         pygame.time.wait(waitTime)
