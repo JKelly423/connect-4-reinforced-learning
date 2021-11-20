@@ -81,33 +81,146 @@
 <dt class="sig sig-object py" id="GUI.GUI">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GUI.</span></span><span class="sig-name descname"><span class="pre">GUI</span></span><a class="headerlink" href="#GUI.GUI" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class encompases the graphical user interface and its methods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><ul class="simple">
+<li><dl class="field-list simple">
+<dt class="field-odd">screen (<em>pygame.display</em>)</dt>
+<dd class="field-odd"><p>GUI screen shown to user</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">SQUARESIZE (<em>int</em>)</dt>
+<dd class="field-odd"><p>size of 1 square on the GUI screen</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">WIDTH (<em>int</em>)</dt>
+<dd class="field-odd"><p>width of GUI screen</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">HEIGHT (<em>int</em>)</dt>
+<dd class="field-odd"><p>height of GUI screen</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">SIZE (<em>tuple</em>)</dt>
+<dd class="field-odd"><p>(WIDTH,HEIGHT) of GUI screen</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">RADIUS (<em>int</em>)</dt>
+<dd class="field-odd"><p>size of game piece radius</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">BLUE (<em>RGB thruple</em>)</dt>
+<dd class="field-odd"><p>BLUE color</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">BLACK (<em>RGB thruple</em>)</dt>
+<dd class="field-odd"><p>BLACK color</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">RED (<em>RGB thruple</em>)</dt>
+<dd class="field-odd"><p>RED color</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">YELLOW (<em>RGB thruple</em>)</dt>
+<dd class="field-odd"><p>YELLOW color</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">BLUE (<em>RGB thruple</em>)</dt>
+<dd class="field-odd"><p>BLUE color</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">FONT (<em>pygame.font</em>)</dt>
+<dd class="field-odd"><p>FONT of text for GUI screen</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="GUI.GUI.draw_board">
 <span class="sig-name descname"><span class="pre">draw_board</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">board</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GUI.GUI.draw_board" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A function to draw the current board on the GUI screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>board</strong> – board object to draw</p>
+</dd>
+<dt class="field-even">Board type</dt>
+<dd class="field-even"><p><a class="reference internal" href="Board.html#Board.Board" title="Board.Board"><code class="xref py py-class docutils literal notranslate"><span class="pre">Board.Board</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GUI.GUI.game_over">
 <span class="sig-name descname"><span class="pre">game_over</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">winner</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waitTime</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GUI.GUI.game_over" title="Permalink to this definition"></a></dt>
-<dd><p>Display message to winner, wait a few seconds, then close the game Window.</p>
-<dl class="simple">
-<dt>Params:     winner (int): player who won the game</dt><dd><p>waitTime (int): time to wait before closing window (milliseconds)</p>
+<dd><p>A function to display a message to the winner, wait a few seconds, then close the game Window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>winner</strong> (<em>int</em>) – player who won the game</p></li>
+<li><p><strong>waitTime</strong> (<em>int</em>) – time to wait before closing window (milliseconds)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>None</em></p>
 </dd>
 </dl>
-<p>Returns:    does not return aything</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GUI.GUI.mouse_piece">
 <span class="sig-name descname"><span class="pre">mouse_piece</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mousePosition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">turn</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GUI.GUI.mouse_piece" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A function to display the appropriate piece at the player’s current mouse .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mousePosition</strong> (<em>int</em>) – current mouse position on screen</p></li>
+<li><p><strong>turn</strong> (<em>int</em>) – current turn count</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GUI.GUI.wait">
 <span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waitTime</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#GUI.GUI.wait" title="Permalink to this definition"></a></dt>
-<dd><p>Helper function to make screen wait for given time in milliseconds</p>
-<dl class="simple">
-<dt>Params:     </dt><dd><p>waitTime (int): time to wait before closing window (milliseconds)</p>
+<dd><p>A function to make the screen wait for given time in milliseconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>waitTime</strong> (<em>int</em>) – time to wait before closing window (milliseconds)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>None</em></p>
 </dd>
 </dl>
 </dd></dl>
