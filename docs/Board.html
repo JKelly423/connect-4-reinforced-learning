@@ -44,8 +44,6 @@
 <li class="toctree-l2"><a class="reference internal" href="GUI.html">GUI module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Player.html">Player module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="State.html">State module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="connect4.html">connect4 module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug.html">debug module</a></li>
 </ul>
 </li>
 </ul>
@@ -85,8 +83,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>matrix</strong> (<em>ndarray</em><em>, </em><em>optional</em>) – ndarray of the current board representation, defaults to <em>None</em></p></li>
-<li><p><strong>winner</strong> (<em>int</em><em>, </em><em>optional</em>) – player who won the game, defaults to <em>None</em></p></li>
+<li><p><strong>matrix</strong> (ndarray, <em>optional</em>) – ndarray of the current board representation, defaults to <em>None</em></p></li>
+<li><p><strong>winner</strong> (int, <em>optional</em>) – player who won the game, defaults to <em>None</em></p></li>
 </ul>
 </dd>
 <dt class="field-even">Attributes</dt>
@@ -169,7 +167,7 @@
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p>ValueError: if playerValue is invalid</p>
+<dd class="field-even"><p><strong>ValueError</strong>: if playerValue is invalid</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Duplicate board with move made, <em>None</em> if no move can be made</p>
@@ -192,8 +190,8 @@
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p>ValueError: if point does not exist on Board
-ValueError: if position is invalid</p>
+<dd class="field-even"><p><strong>ValueError</strong>: if point does not exist on Board
+<strong>ValueError</strong>: if position is invalid</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>List of valid points neighboring point, <em>None</em> if neighbor does not exist</p>
@@ -242,8 +240,8 @@ ValueError: if position is invalid</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="Board.Board.win_state">
-<span class="sig-name descname"><span class="pre">win_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.win_state" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="Board.Board.winstate">
+<span class="sig-name descname"><span class="pre">winstate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Board.Board.winstate" title="Permalink to this definition"></a></dt>
 <dd><p>A function to check if the move made resulted in a winning state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

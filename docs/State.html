@@ -18,7 +18,6 @@
     <script src="static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="connect4 module" href="connect4.html" />
     <link rel="prev" title="Player module" href="Player.html" /> 
 </head>
 
@@ -44,8 +43,6 @@
 <li class="toctree-l2"><a class="reference internal" href="GUI.html">GUI module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Player.html">Player module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">State module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="connect4.html">connect4 module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug.html">debug module</a></li>
 </ul>
 </li>
 </ul>
@@ -79,20 +76,47 @@
 <span id="state-module"></span><h1>State module<a class="headerlink" href="#module-State" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="State.State">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">State.</span></span><span class="sig-name descname"><span class="pre">State</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">board</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fvalue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#State.State" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">State.</span></span><span class="sig-name descname"><span class="pre">State</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">board</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parentstate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fvalue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#State.State" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class represents the state of each board in the game</p>
-<p>board - the actual board that belongs to this state (See Board Class)
-parent_state - the State that the current State came from after applying a legal move
-depth - the depth in the move tree from the original board that this board</p>
-<blockquote>
-<div><p>can be found in (the # of moves the puzzle has undergone)</p>
-</div></blockquote>
-<p>f-value - the priority order of the state; some evaluation function of the state</p>
+<p>This class represents the state of the game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>board</strong> (<a class="reference internal" href="Board.html#Board.Board" title="Board.Board"><code class="xref py py-class docutils literal notranslate"><span class="pre">Board.Board</span></code></a>) – the actual board that belongs to this state</p></li>
+<li><p><strong>parentstate</strong> (<a class="reference internal" href="#State.State" title="State.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State.State</span></code></a>) – the State that the current State came from after applying a legal move</p></li>
+<li><p><strong>depth</strong> (<em>int</em>) – the depth of the current state (number of moves made)</p></li>
+<li><p><strong>f-value</strong> (<em>int</em><em>, </em><em>optional</em>) – the priority order of the state; some heuristic function of the state. Defaults to <em>0</em></p></li>
+</ul>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>:board (<a class="reference internal" href="Board.html#Board.Board" title="Board.Board"><code class="xref py py-class docutils literal notranslate"><span class="pre">Board.Board</span></code></a>): number of rows</p></li>
+<li><p>:parentstate (<a class="reference internal" href="#State.State" title="State.State"><code class="xref py py-class docutils literal notranslate"><span class="pre">State.State</span></code></a>) the State prior to current state</p></li>
+<li><dl class="field-list simple">
+<dt class="field-odd">depth (<em>int</em>)</dt>
+<dd class="field-odd"><p>depth of state</p>
+</dd>
+</dl>
+</li>
+<li><dl class="field-list simple">
+<dt class="field-odd">fvalue (<em>int</em>)</dt>
+<dd class="field-odd"><p>priorty order of the state. The value of some heuristic function. Defaults to <em>0</em></p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="State.State.printPath">
 <span class="sig-name descname"><span class="pre">printPath</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#State.State.printPath" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A function to print a complated path from the initial state to the solution state. This function calls print() statements directly, rather than returning a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -103,7 +127,6 @@ depth - the depth in the move tree from the original board that this board</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Player.html" class="btn btn-neutral float-left" title="Player module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="connect4.html" class="btn btn-neutral float-right" title="connect4 module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

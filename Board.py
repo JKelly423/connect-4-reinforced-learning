@@ -1,9 +1,7 @@
 ####################
 #   Board Class    #
 ####################
-# Properties of Board class (accessed with Board.propertyName)
-# 1.    Matrix - 2D Array (Numpy.Array) with state of current board.
-# 2.    depth (int) - levels
+
 import numpy as np
 
 ROW_COUNT = 6
@@ -14,9 +12,9 @@ class Board:
     """This class represents the actual connect4 board the game is played on.
 
         :param matrix: ndarray of the current board representation, defaults to *None*
-        :type matrix: ndarray, optional
+        :type matrix: ndarray, *optional*
         :param winner: player who won the game, defaults to *None*
-        :type winner: int, optional
+        :type winner: int, *optional*
 
         :Attributes:
             * :ROW_COUNT (*int*): number of rows
@@ -29,7 +27,7 @@ class Board:
         """Constructor method.
 
         :raises:
-            ValueError: value in given matrix is invalid
+            **ValueError**: value in given matrix is invalid
         """
         self.ROW_COUNT = ROW_COUNT
         self.COL_COUNT = COL_COUNT
@@ -56,6 +54,7 @@ class Board:
         """A function to checks if two Boards are the same.
 
             :param other: board to compare self to
+            :type other: :class:`Board.Board`
             
             :return: *True* if the two boards are equal, *False* if not
             :rtype: bool
@@ -98,8 +97,8 @@ class Board:
             :type position: int
             
             :raises:
-                ValueError: if point does not exist on Board
-                ValueError: if position is invalid
+                **ValueError**: if point does not exist on Board
+                **ValueError**: if position is invalid
 
             :return: List of valid points neighboring point, *None* if neighbor does not exist
             :rtype: list or None
@@ -176,7 +175,7 @@ class Board:
         :type playerValue: int: 1 or 2
             
         :raises:
-            ValueError: if playerValue is invalid
+            **ValueError**: if playerValue is invalid
 
         :return: Duplicate board with move made, *None* if no move can be made
         :rtype: :class:`.Board` or *None*
@@ -294,6 +293,7 @@ class Board:
         # If all 4 pieces are = playerValue, score is increased by 100
         if neighbors.count(playerValue) == 4:
             score += 100
+            self.winner = playerValue
 
         # If 3 pieces are playerValue and one piece is unplayed, score += 5
         if neighbors.count(playerValue) == 3 and neighbors.count(0) == 1:
@@ -310,6 +310,7 @@ class Board:
         # If opponent won game, score -= 100
         if neighbors.count(oppValue) == 4:
             score -= 100
+            self.winner = oppValue
 
         return score
 
