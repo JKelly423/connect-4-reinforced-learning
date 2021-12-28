@@ -1,4 +1,4 @@
-# Connect-4 Reinforced Learning
+# Connect-4 Reinforced Learning Game AI
 ### A connect-4 game which utalizes and compares multiple AI search algoritms.
 By: Jack Kelly
 
